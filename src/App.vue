@@ -1,17 +1,40 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <SearchForm @changeData="dataResults($event)"/>
+    <keep-alive> 
+      <SearchResults v-if="showResults" :resultsData="results" />      
+    </keep-alive>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SearchForm from './components/SearchForm.vue';
+import SearchResults from './components/SearchResults.vue';
+/* import Shazam from './services/Shazam.js'; */
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    SearchForm,
+    SearchResults
+  }, 
+  data() {
+    return {
+      showResults: false,
+      results: null
+    }
+  },
+  methods: {
+    dataResults(data){
+      this.showResults = false
+      this.results = ''
+
+      console.log('Emit: ', data);
+      this.results = data.hits
+      this.showResults = true
+    }
   }
 }
 </script>
@@ -21,8 +44,12 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
 }
 </style>
